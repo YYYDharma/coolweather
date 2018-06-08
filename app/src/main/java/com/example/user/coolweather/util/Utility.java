@@ -5,6 +5,10 @@ import android.text.TextUtils;
 import com.example.user.coolweather.db.City;
 import com.example.user.coolweather.db.County;
 import com.example.user.coolweather.db.Province;
+import com.example.user.coolweather.gson.Weather;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +18,8 @@ import okhttp3.OkHttpClient;
 
 /**
  * 处理服务器返回的json数据
- * @author
+ * @author user
+ * @time 2018/6/8 15:47
  */
 public class Utility {
 
@@ -85,5 +90,23 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Weather对象
+     * @param response
+     * @return
+     */
+    public static Weather handleWeatherResponse(String response){
+        try {
+            //服务器的数据格式如下{ HeWeather [ ] }
+            JSONObject jsonObject=new JSONObject(response);
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather");
+            String weatherContent=jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,Weather.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
