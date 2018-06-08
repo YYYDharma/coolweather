@@ -7,9 +7,9 @@ import org.litepal.crud.DataSupport;
  * @author
  */
 public class Province extends DataSupport {
-    private int id;
-    private String provinceName;
-    private int provinceCode;
+    private int id;//实体对象id
+    private String provinceName;//名称
+    private int provinceCode;//编号
 
     public int getId() {
         return id;
